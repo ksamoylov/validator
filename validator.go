@@ -75,8 +75,6 @@ func (m *Model) Validate() (bool, ValidationErrors) {
 
 	hasErrors := len(validationErrors) > 0
 
-	fmt.Println(validationErrors)
-
 	return !hasErrors, validationErrors
 }
 
