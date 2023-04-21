@@ -1,7 +1,6 @@
 package validator
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 )
@@ -47,7 +46,7 @@ func (m *Model) Validate() (bool, ValidationErrors) {
 		actualFType := reflect.TypeOf(value).String()
 
 		if actualFType != rule.FType {
-			err = errors.New(fmt.Sprintf("mismatched types. Expected: %s. Actual: %s", rule.FType, actualFType))
+			err = fmt.Errorf("mismatched types. Expected: %s. Actual: %s", rule.FType, actualFType)
 			validationErrors = append(validationErrors, err)
 			continue
 		}
@@ -55,19 +54,19 @@ func (m *Model) Validate() (bool, ValidationErrors) {
 		length := len(fmt.Sprintf("%v", value))
 
 		if length < 1 {
-			err = errors.New("value can not be empty")
+			err = fmt.Errorf("value can not be empty")
 			validationErrors = append(validationErrors, err)
 			continue
 		}
 
 		if length > rule.FRules.Max {
-			err = errors.New(fmt.Sprintf("value length can not be more than %d", rule.FRules.Max))
+			err = fmt.Errorf("value length can not be more than %d", rule.FRules.Max)
 			validationErrors = append(validationErrors, err)
 			continue
 		}
 
 		if length < rule.FRules.Min {
-			err = errors.New(fmt.Sprintf("value length can not be less than %d", rule.FRules.Min))
+			err = fmt.Errorf("value length can not be less than %d", rule.FRules.Min)
 			validationErrors = append(validationErrors, err)
 			continue
 		}
@@ -87,7 +86,7 @@ func (m *Model) getRuleForField(field string) (*Rule, error) {
 		}
 	}
 
-	return nil, errors.New(fmt.Sprintf("unknown field %s", field))
+	return nil, fmt.Errorf("unknown field %s", field)
 }
 
 func ToStringErrors(errs ValidationErrors) string {

@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/ksamoylov/validator"
 	"log"
@@ -56,7 +55,7 @@ func validate(data validator.Fields) error {
 	_, validationErrors := model.Validate()
 
 	if len(validationErrors) > 1 {
-		return errors.New(validator.ToStringErrors(validationErrors))
+		return fmt.Errorf(validator.ToStringErrors(validationErrors))
 	}
 
 	return nil
